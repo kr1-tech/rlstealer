@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,10 +87,10 @@
 <body>
   <div class="card">
     <h1>Your Connection Info</h1>
-    <p class="sub">100% static page &mdash; everything runs in your browser.</p>
+    <p class="sub">Everything runs in your browser.</p>
     <p class="notice" id="notice">
-      This page only shows information about <strong>your own</strong> connection.
-      Nothing is stored, tracked, or sent to anyone &mdash; there is no backend.
+      This page shows information about your own connection.
+      Nothing is sent to anyone unless you choose to share it.
     </p>
     <button id="shareBtn" class="btn" style="display:none" disabled>Share my info with the link owner</button>
     <p class="status" id="shareStatus"></p>
@@ -103,26 +104,36 @@
   var $shareBtn = document.getElementById('shareBtn');
   var $shareStatus = document.getElementById('shareStatus');
 
-  // Share links carry the relay webhook in the fragment: #w=<id>/<token>
   var shareMatch = /^#w=(\d{5,25})\/([A-Za-z0-9_-]{20,120})$/.exec(location.hash || '');
   var info = null;
 
   function item(label, value, wide) {
     if (value === undefined || value === null || value === '') return '';
-    return '<div class="item' + (wide ? ' wide' : '') + '">' +
-             '<div class="k">' + label + '</div>' +
-             '<div class="v' + (wide ? ' big' : '') + '">' + value + '</div>' +
-           '</div>';
+    var el = document.createElement('div');
+    el.className = 'item' + (wide ? ' wide' : '');
+
+    var k = document.createElement('div');
+    k.className = 'k';
+    k.textContent = label;
+
+    var v = document.createElement('div');
+    v.className = 'v' + (wide ? ' big' : '');
+    v.textContent = String(value);
+
+    el.append(k, v);
+    return el;
   }
 
   async function getData() {
     try {
       var r = await fetch('https://ipwho.is/', { cache: 'no-store' });
+      if (!r.ok) throw new Error('Primary API request failed');
       var d = await r.json();
-      if (!d || d.success === false) throw new Error('primary failed');
+      if (!d || d.success === false) throw new Error('Primary API failed');
       return { d: d, src: 'ipwho.is' };
     } catch (e) {
       var r2 = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
+      if (!r2.ok) throw new Error('Fallback API request failed');
       var d2 = await r2.json();
       return { d: d2, src: 'ipapi.co' };
     }
@@ -149,6 +160,7 @@
         continent: d.continent
       };
     }
+
     return {
       ip: d.ip,
       flag: '',
@@ -172,49 +184,72 @@
   (async function () {
     try {
       var res = await getData();
-      var n = normalize(res.d, res.src);
-      info = n;
+      info = normalize(res.d, res.src);
 
-      var html = '';
-      html += item('IP address', n.ip, true);
-      html += item('City', n.city);
-      html += item('Region / state', n.region);
-      html += item('Country', (n.flag || '') + (n.country || '') + (n.code ? ' (' + n.code + ')' : ''));
-      html += item('Capital', n.capital);
-      html += item('Latitude', n.lat);
-      html += item('Longitude', n.lon);
-      html += item('Postal code', n.postal);
-      html += item('Timezone', n.tz);
-      html += item('ISP / provider', n.isp, true);
-      html += item('Organization', n.org);
-      html += item('ASN', n.asn);
-      html += item('Continent', n.continent);
-      html += item('Domain', n.domain);
-      $grid.innerHTML = html || '<div class="item wide"><div class="v">Could not read your connection info.</div></div>';
+      var values = [
+        ['IP address', info.ip, true],
+        ['City', info.city],
+        ['Region / state', info.region],
+        ['Country', (info.flag || '') + (info.country || '') + (info.code ? ' (' + info.code + ')' : '')],
+        ['Capital', info.capital],
+        ['Latitude', info.lat],
+        ['Longitude', info.lon],
+        ['Postal code', info.postal],
+        ['Timezone', info.tz],
+        ['ISP / provider', info.isp, true],
+        ['Organization', info.org],
+        ['ASN', info.asn],
+        ['Continent', info.continent],
+        ['Domain', info.domain]
+      ];
+
+      $grid.replaceChildren();
+
+      values.forEach(function (entry) {
+        var el = item(entry[0], entry[1], entry[2]);
+        if (el) $grid.appendChild(el);
+      });
+
+      if (!$grid.children.length) {
+        $grid.textContent = 'Could not read your connection info.';
+      }
+
       document.getElementById('src').textContent = 'Data source: ' + res.src;
 
       if (shareMatch) {
         $notice.classList.add('warn');
-        $notice.innerHTML =
-          'Someone shared this link with you. If you press <strong>Share</strong>, the info shown below ' +
-          '(IP, city, provider, country, etc.) is sent to that person&rsquo;s Discord channel. ' +
-          'Nothing is sent unless you press the button.';
+        $notice.textContent =
+          'This link supports voluntary sharing. Press the button below to send the connection information shown on this page to the link owner’s Discord webhook.';
         $shareBtn.style.display = 'block';
         $shareBtn.disabled = false;
       }
     } catch (e) {
-      $grid.innerHTML = '<div class="item wide"><div class="v">Could not load your connection info. Try refreshing the page.</div></div>';
+      $grid.replaceChildren();
+      var errorItem = document.createElement('div');
+      errorItem.className = 'item wide';
+      errorItem.textContent = 'Could not load your connection info. Try refreshing the page.';
+      $grid.appendChild(errorItem);
     }
   })();
 
+  async function shareInfo() {
+    if (!info || !shareMatch) return;
+
     $shareBtn.disabled = true;
     $shareStatus.className = 'status';
-    $shareStatus.textContent = 'Sending\u2026';
+    $shareStatus.textContent = 'Sending…';
 
     var fields = [];
+
     function f(name, value, inline) {
       if (value === undefined || value === null || value === '') return;
-      fields.push({ name: name, value: String(value), inline: !!inline });
+      fields.push({
+        name: name,
+        value: String(value).slice(0, 1024),
+        inline: !!inline
+      });
+    }
+
     f('IP', info.ip, true);
     f('City', info.city, true);
     f('Region / state', info.region, true);
@@ -234,28 +269,40 @@
       username: 'realer',
       embeds: [{
         title: 'Shared connection info',
-        description: 'The visitor of the link',
+        description: 'The visitor chose to share the connection information displayed on the page.',
         color: 0x5eead4,
         fields: fields,
         timestamp: new Date().toISOString(),
-        footer: { text: 'Shared voluntarily from the realer info page' }
+        footer: {
+          text: 'Shared voluntarily from the realer info page'
+        }
       }]
     };
 
     try {
-      var r = await fetch(
-        'https://discord.com/api/webhooks/' + shareMatch[1] + '/' + shareMatch[2],
-        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) }
+      var response = await fetch(
+        'https://discord.com/api/webhooks/' +
+          shareMatch[1] + '/' + shareMatch[2],
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }
       );
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+
       $shareStatus.className = 'status ok';
-      $shareStatus.textContent = 'Shared \u2014 the link owner received the info shown on this page.';
+      $shareStatus.textContent = 'Shared successfully.';
     } catch (e) {
       $shareStatus.className = 'status err';
       $shareStatus.textContent = 'Sending failed. You can try again.';
       $shareBtn.disabled = false;
     }
-  });
+  }
+
+  $shareBtn.addEventListener('click', shareInfo);
 </script>
 </body>
 </html>
+```
