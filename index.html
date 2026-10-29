@@ -314,20 +314,100 @@ loadInfo().then(function() {
 });
 
 </script>
-  
+
+<style>
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 100%;
+    background: #202020 !important;
+}
+body {
+    display: block !important;
+    color: #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+.example-page {
+    width: calc(100% - 36px);
+    max-width: 410px;
+    margin: 101px auto 20px;
+    font-size: 14.5px;
+    line-height: 1.75;
+}
+.book-icon {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 17px;
+    color: #aaa;
+}
+.example-page p {
+    margin: 0 0 18px;
+    font-size: 14.5px;
+    line-height: 1.75;
+}
+.example-page .english {
+    color: #f5f5f5;
+    margin-bottom: 17px;
+}
+.example-page .translation {
+    color: #aaa;
+}
+.example-page [lang="ar"] {
+    direction: rtl;
+}
+@media (max-width: 480px) {
+    .example-page {
+        margin-top: 80px;
+    }
+}
+</style>
+
 <div class="example-page">
-404 - NOT FOUND 
-    <p>This domain is for use in documentation examples without needing permission. This is not a service; avoid relying on it for testing and monitoring purposes.</p>
+    <svg class="book-icon" viewBox="0 0 48 48"
+         fill="none" stroke="currentColor"
+         stroke-width="3" stroke-linecap="round"
+         stroke-linejoin="round" aria-hidden="true">
+        <path d="M24 13C19 8 12 8 5 9v29c8-1 14 0 19 5"/>
+        <path d="M24 13c5-5 12-5 19-4v29c-8-1-14 0-19 5"/>
+        <path d="M24 13v30"/>
+        <path d="M10 14c3 0 5 1 7 2"/>
+        <path d="M30 17h2v5h-2m5-5h2v5h-2"/>
+    </svg>
 
-    <p lang="ar" dir="rtl">هذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن. هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.</p>
+    <p class="english">
+        This domain is for use in documentation examples without
+        needing permission. This is not a service; avoid relying on
+        it for testing and monitoring purposes.
+    </p>
 
-    <p lang="zh">该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。</p>
+    <p class="translation" lang="ar" dir="rtl">
+        هذا النطاق مُخصص للاستخدام في أمثلة التوثيق دون الحاجة إلى إذن.
+        هذه ليست خدمة، يُرجى تجنب الاعتماد عليها لأغراض الاختبار والمراقبة.
+    </p>
 
-    <p lang="fr">L’usage de ce domaine est réservé à des exemples de documentation, sans autorisation préalable. Il ne s’agit pas d’un service ; son utilisation à des fins de test ou de surveillance est à éviter.</p>
+    <p class="translation" lang="zh">
+        该域名仅用于文档示例，无需获得许可。这并非一项服务，请勿将其用于测试和监控目的。
+    </p>
 
-    <p lang="ru">Данный домен предназначен для использования в примерах документации без необходимости получения предварительного разрешения. Это не сервис; не рекомендуется его использование для тестирования и мониторинга.</p>
+    <p class="translation" lang="fr">
+        L’usage de ce domaine est réservé à des exemples de documentation,
+        sans autorisation préalable. Il ne s’agit pas d’un service ;
+        son utilisation à des fins de test ou de surveillance est à éviter.
+    </p>
 
-    <p lang="es">Este dominio está destinado al uso en ejemplos de documentación sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo para realizar pruebas o monitoreos.</p>
+    <p class="translation" lang="ru">
+        Данный домен предназначен для использования в примерах
+        документации без необходимости получения предварительного
+        разрешения. Это не сервис; не рекомендуется его использование
+        для тестирования и мониторинга.
+    </p>
+
+    <p class="translation" lang="es">
+        Este dominio está destinado al uso en ejemplos de documentación
+        sin necesidad de permiso. Esto no es un servicio; evitar utilizarlo
+        para realizar pruebas o monitoreos.
+    </p>
 </div>
 
 </body>
