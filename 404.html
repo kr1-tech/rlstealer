@@ -1,10 +1,10 @@
-```html
+you got hacked!
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Your Connection Info</title>
+<title></title>
 <style>
 :root {
   --bg: #0b0f17;
@@ -107,18 +107,15 @@ h1 { font-size: 20px; margin-bottom: 4px; }
 </head>
 <body>
 <div class="card">
-  <h1>Your Connection Info</h1>
-  <p class="sub">Everything runs in your browser.</p>
+  <h1></h1>
+  <p class="sub"></p>
   <p class="notice" id="notice">
-    This page shows information about your own connection.
-    Nothing is sent to anyone unless you choose to share it.
   </p>
   <button id="shareBtn" class="btn" style="display:none">
-    Copy my connection info
   </button>
   <p class="status" id="shareStatus" aria-live="polite"></p>
   <div class="grid" id="grid">
-    <div class="item wide"><div class="v">Loading…</div></div>
+    <div class="item wide"><div class="v"></div></div>
   </div>
   <p class="foot" id="src"></p>
 </div>
@@ -240,7 +237,7 @@ async function loadInfo() {
     });
 
     if (!$grid.children.length) {
-      $grid.textContent = 'Could not read your connection info.';
+      $grid.textContent = '';
     }
 
     document.getElementById('src').textContent =
@@ -280,12 +277,12 @@ async function SHARE() {
   try {
     await navigator.clipboard.writeText(text);
     $shareStatus.className = 'status ok';
-    $shareStatus.textContent = 'Connection info copied to clipboard.';
+    $shareStatus.textContent = '';
     return true;
   } catch (e) {
     $shareStatus.className = 'status err';
     $shareStatus.textContent =
-      'Clipboard access failed. Check your browser permissions.';
+      '';
     return false;
   }
 }
