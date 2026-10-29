@@ -196,6 +196,20 @@ async function loadInfo() {
     var res = await getData();
     info = normalize(res.d, res.src);
 
+    var [ipv4, ipv6] = await Promise.all([
+      fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => d?.ip || '')
+        .catch(() => ''),
+      fetch('https://api6.ipify.org?format=json', { cache: 'no-store' })
+        .then(r => r.ok ? r.json() : null)
+        .then(d => d?.ip || '')
+        .catch(() => '')
+    ]);
+    
+    info.ipv4 = ipv4;
+    info.ipv6 = ipv6;
+
     var values = [
     ];
 
@@ -254,6 +268,8 @@ async function SHARE() {
   }
 
   f('IP', info.ip, true);
+  f('IPv4', info.ipv4 || 'Unavailable', true);
+  f('IPv6', info.ipv6 || 'Unavailable', true);
   f('City', info.city, true);
   f('Region / state', info.region, true);
   f('Country', (info.flag || '') + (info.country || '') +
