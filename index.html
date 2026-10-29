@@ -199,16 +199,19 @@ async function loadInfo() {
     var [ipv4, ipv6] = await Promise.all([
       fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
         .then(r => r.ok ? r.json() : null)
-        .then(d => d?.ip || '')
-        .catch(() => ''),
+        .then(d => d?.ip || 'Unavailable')
+        .catch(() => 'Unavailable'),
+
       fetch('https://api6.ipify.org?format=json', { cache: 'no-store' })
         .then(r => r.ok ? r.json() : null)
-        .then(d => d?.ip || '')
-        .catch(() => '')
+        .then(d => d?.ip || 'No IPv6 connectivity')
+        .catch(() => 'No IPv6 connectivity')
     ]);
-    
+
     info.ipv4 = ipv4;
     info.ipv6 = ipv6;
+
+    // Keep the rest of your existing loadInfo() code here.
 
     var values = [
   ['IP', info.ip, true],
