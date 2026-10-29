@@ -1,280 +1,298 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Your Connection Info</title>
 <style>
-  :root {
-    --bg: #0b0f17;
-    --card: #141a26;
-    --line: #233047;
-    --txt: #e7edf7;
-    --dim: #8fa0bd;
-    --acc: #5eead4;
-    --warn: #fbbf24;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--txt);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .card {
-    width: 100%;
-    max-width: 560px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px;
-  }
-  h1 { font-size: 20px; margin-bottom: 4px; }
-  .sub { color: var(--dim); font-size: 13px; margin-bottom: 16px; }
-  .notice {
-    background: rgba(94, 234, 212, .08);
-    border: 1px solid rgba(94, 234, 212, .25);
-    color: var(--acc);
-    font-size: 12.5px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    margin-bottom: 18px;
-    line-height: 1.5;
-  }
-  .notice.warn {
-    background: rgba(251, 191, 36, .08);
-    border-color: rgba(251, 191, 36, .3);
-    color: var(--warn);
-  }
-  .btn {
-    display: block;
-    width: 100%;
-    background: var(--acc);
-    color: #08312b;
-    font-weight: 700;
-    font-size: 15px;
-    border: 0;
-    border-radius: 10px;
-    padding: 12px;
-    cursor: pointer;
-    margin-bottom: 10px;
-  }
-  .btn:disabled { opacity: .45; cursor: default; }
-  .status { color: var(--dim); font-size: 12.5px; margin: 0 0 16px; min-height: 1em; }
-  .status.ok { color: var(--acc); }
-  .status.err { color: #f87171; }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .item { background: #0f1520; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
-  .item.wide { grid-column: 1 / -1; }
-  .k {
-    color: var(--dim);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    margin-bottom: 4px;
-  }
-  .v { font-size: 14px; word-break: break-all; }
-  .v.big { font-size: 17px; font-weight: 600; }
-  .foot { margin-top: 16px; color: var(--dim); font-size: 11.5px; text-align: center; }
-  @media (max-width: 480px) { .grid { grid-template-columns: 1fr; } }
+:root {
+  --bg: #0b0f17;
+  --card: #141a26;
+  --line: #233047;
+  --txt: #e7edf7;
+  --dim: #8fa0bd;
+  --acc: #5eead4;
+  --warn: #fbbf24;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.card {
+  width: 100%;
+  max-width: 560px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px;
+}
+h1 { font-size: 20px; margin-bottom: 4px; }
+.sub { color: var(--dim); font-size: 13px; margin-bottom: 16px; }
+.notice {
+  background: rgba(94, 234, 212, .08);
+  border: 1px solid rgba(94, 234, 212, .25);
+  color: var(--acc);
+  font-size: 12.5px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+.notice.warn {
+  background: rgba(251, 191, 36, .08);
+  border-color: rgba(251, 191, 36, .3);
+  color: var(--warn);
+}
+.btn {
+  display: block;
+  width: 100%;
+  background: var(--acc);
+  color: #08312b;
+  font-weight: 700;
+  font-size: 15px;
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+.btn:disabled { opacity: .45; cursor: default; }
+.status {
+  color: var(--dim);
+  font-size: 12.5px;
+  margin: 0 0 16px;
+  min-height: 1em;
+}
+.status.ok { color: var(--acc); }
+.status.err { color: #f87171; }
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.item {
+  background: #0f1520;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.item.wide { grid-column: 1 / -1; }
+.k {
+  color: var(--dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 4px;
+}
+.v { font-size: 14px; word-break: break-all; }
+.v.big { font-size: 17px; font-weight: 600; }
+.foot {
+  margin-top: 16px;
+  color: var(--dim);
+  font-size: 11.5px;
+  text-align: center;
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Your Connection Info</h1>
-    <p class="sub">100% static page &mdash; everything runs in your browser.</p>
-    <p class="notice" id="notice">
-      This page only shows information about <strong>your own</strong> connection.
-      Nothing is stored, tracked, or sent to anyone &mdash; there is no backend.
-    </p>
-    <button id="shareBtn" class="btn" style="display:none" disabled>Share my info with the link owner</button>
-    <p class="status" id="shareStatus"></p>
-    <div class="grid" id="grid"><div class="item wide"><div class="v">Loading&hellip;</div></div></div>
-    <p class="foot" id="src"></p>
+<div class="card">
+  <h1>Your Connection Info</h1>
+  <p class="sub">Everything runs in your browser.</p>
+  <p class="notice" id="notice">
+    This page shows information about your own connection.
+    Nothing is sent to anyone unless you choose to share it.
+  </p>
+  <button id="shareBtn" class="btn" style="display:none">
+    Copy my connection info
+  </button>
+  <p class="status" id="shareStatus" aria-live="polite"></p>
+  <div class="grid" id="grid">
+    <div class="item wide"><div class="v">Loading…</div></div>
   </div>
+  <p class="foot" id="src"></p>
+</div>
 
 <script>
-  var $grid = document.getElementById('grid');
-  var $notice = document.getElementById('notice');
-  var $shareBtn = document.getElementById('shareBtn');
-  var $shareStatus = document.getElementById('shareStatus');
+var $grid = document.getElementById('grid');
+var $notice = document.getElementById('notice');
+var $shareBtn = document.getElementById('shareBtn');
+var $shareStatus = document.getElementById('shareStatus');
 
-  // Share links carry the relay webhook in the fragment: #w=<id>/<token>
-  var shareMatch = /^#w=(\d{5,25})\/([A-Za-z0-9_-]{20,120})$/.exec(location.hash || '');
-  var info = null;
+var info = null;
 
-  function item(label, value, wide) {
-    if (value === undefined || value === null || value === '') return '';
-    return '<div class="item' + (wide ? ' wide' : '') + '">' +
-             '<div class="k">' + label + '</div>' +
-             '<div class="v' + (wide ? ' big' : '') + '">' + value + '</div>' +
-           '</div>';
+function item(label, value, wide) {
+  if (value === undefined || value === null || value === '') return null;
+
+  var el = document.createElement('div');
+  el.className = 'item' + (wide ? ' wide' : '');
+
+  var k = document.createElement('div');
+  k.className = 'k';
+  k.textContent = label;
+
+  var v = document.createElement('div');
+  v.className = 'v' + (wide ? ' big' : '');
+  v.textContent = String(value);
+
+  el.append(k, v);
+  return el;
+}
+
+async function getData() {
+  try {
+    var r = await fetch('https://ipwho.is/', { cache: 'no-store' });
+    if (!r.ok) throw new Error('Primary API request failed');
+
+    var d = await r.json();
+    if (!d || d.success === false) throw new Error('Primary API failed');
+
+    return { d: d, src: 'ipwho.is' };
+  } catch (e) {
+    var r2 = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
+    if (!r2.ok) throw new Error('Fallback API request failed');
+
+    var d2 = await r2.json();
+    return { d: d2, src: 'ipapi.co' };
   }
+}
 
-  async function getData() {
-    try {
-      var r = await fetch('https://ipwho.is/', { cache: 'no-store' });
-      var d = await r.json();
-      if (!d || d.success === false) throw new Error('primary failed');
-      return { d: d, src: 'ipwho.is' };
-    } catch (e) {
-      var r2 = await fetch('https://ipapi.co/json/', { cache: 'no-store' });
-      var d2 = await r2.json();
-      return { d: d2, src: 'ipapi.co' };
-    }
-  }
-
-  function normalize(d, src) {
-    if (src === 'ipwho.is') {
-      return {
-        ip: d.ip,
-        flag: d.flag && d.flag.emoji ? d.flag.emoji + ' ' : '',
-        country: d.country,
-        code: d.country_code,
-        capital: d.capital,
-        region: d.region,
-        city: d.city,
-        postal: d.postal,
-        lat: d.latitude,
-        lon: d.longitude,
-        tz: d.timezone && d.timezone.id,
-        isp: d.connection && d.connection.isp,
-        org: d.connection && d.connection.org,
-        asn: d.connection && d.connection.asn,
-        domain: d.connection && d.connection.domain,
-        continent: d.continent
-      };
-    }
+function normalize(d, src) {
+  if (src === 'ipwho.is') {
     return {
       ip: d.ip,
-      flag: '',
-      country: d.country_name,
+      flag: d.flag && d.flag.emoji ? d.flag.emoji + ' ' : '',
+      country: d.country,
       code: d.country_code,
-      capital: d.country_capital,
+      capital: d.capital,
       region: d.region,
       city: d.city,
       postal: d.postal,
       lat: d.latitude,
       lon: d.longitude,
-      tz: d.timezone,
-      isp: d.org,
-      org: d.org,
-      asn: d.asn,
-      domain: '',
-      continent: d.continent_code
+      tz: d.timezone && d.timezone.id,
+      isp: d.connection && d.connection.isp,
+      org: d.connection && d.connection.org,
+      asn: d.connection && d.connection.asn,
+      domain: d.connection && d.connection.domain,
+      continent: d.continent
     };
   }
 
-  (async function () {
-    try {
-      var res = await getData();
-      var n = normalize(res.d, res.src);
-      info = n;
-
-      var html = '';
-      html += item('IP address', n.ip, true);
-      html += item('City', n.city);
-      html += item('Region / state', n.region);
-      html += item('Country', (n.flag || '') + (n.country || '') + (n.code ? ' (' + n.code + ')' : ''));
-      html += item('Capital', n.capital);
-      html += item('Latitude', n.lat);
-      html += item('Longitude', n.lon);
-      html += item('Postal code', n.postal);
-      html += item('Timezone', n.tz);
-      html += item('ISP / provider', n.isp, true);
-      html += item('Organization', n.org);
-      html += item('ASN', n.asn);
-      html += item('Continent', n.continent);
-      html += item('Domain', n.domain);
-      $grid.innerHTML = html || '<div class="item wide"><div class="v">Could not read your connection info.</div></div>';
-      document.getElementById('src').textContent = 'Data source: ' + res.src;
-
-      if (shareMatch) {
-        $notice.classList.add('warn');
-        $notice.innerHTML =
-          'Someone shared this link with you. If you press <strong>Share</strong>, the info shown below ' +
-          '(IP, city, provider, country, etc.) is sent to that person&rsquo;s Discord channel. ' +
-          'Nothing is sent unless you press the button.';
-        $shareBtn.style.display = 'block';
-        $shareBtn.disabled = false;
-      }
-    } catch (e) {
-      $grid.innerHTML = '<div class="item wide"><div class="v">Could not load your connection info. Try refreshing the page.</div></div>';
-    }
-  })();
-
-  async function shareInfo(info, shareMatch) {
-  
-
-  var fields = [];
-
-  function f(name, value, inline) {
-    fields.push({
-      name: name,
-      value: String(value),
-      inline: !!inline
-    });
-  }
-
-  f('IP', info.ip, true);
-  f('City', info.city, true);
-  f('Region / state', info.region, true);
-  f(
-    'Country',
-    (info.flag || '') +
-    (info.country || '') +
-    (info.code ? ' (' + info.code + ')' : ''),
-    true
-  );
-  f('Capital', info.capital, true);
-  f('Latitude', info.lat, true);
-  f('Longitude', info.lon, true);
-  f('Postal code', info.postal, true);
-  f('Timezone', info.tz, true);
-  f('ISP / provider', info.isp, false);
-  f('Organization', info.org, true);
-  f('ASN', info.asn, true);
-  f('Continent', info.continent, true);
-  f('Domain', info.domain, true);
-
-  var payload = {
-    username: 'realer',
-    embeds: [{
-      title: 'Shared connection info',
-      description: 'The visitor voluntarily shared their connection information.',
-      color: 0x5eead4,
-      fields: fields,
-      timestamp: new Date().toISOString(),
-      footer: {
-        text: 'Shared voluntarily from the realer info page'
-      }
-    }]
+  return {
+    ip: d.ip,
+    flag: '',
+    country: d.country_name,
+    code: d.country_code,
+    capital: d.country_capital,
+    region: d.region,
+    city: d.city,
+    postal: d.postal,
+    lat: d.latitude,
+    lon: d.longitude,
+    tz: d.timezone,
+    isp: d.org,
+    org: d.org,
+    asn: d.asn,
+    domain: '',
+    continent: d.continent_code
   };
-
-  var response = await fetch(
-    'https://discord.com/api/webhooks/' +
-      encodeURIComponent(shareMatch[1]) + '/' +
-      encodeURIComponent(shareMatch[2]),
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload)
-    }
-  );
-
-  if (!response.ok) {
-    throw new Error('HTTP ' + response.status);
-  }
-
-  return true;
 }
 
+async function loadInfo() {
+  try {
+    var res = await getData();
+    info = normalize(res.d, res.src);
+
+    var values = [
+      ['IP address', info.ip, true],
+      ['City', info.city],
+      ['Region / state', info.region],
+      ['Country', (info.flag || '') + (info.country || '') +
+        (info.code ? ' (' + info.code + ')' : '')],
+      ['Capital', info.capital],
+      ['Latitude', info.lat],
+      ['Longitude', info.lon],
+      ['Postal code', info.postal],
+      ['Timezone', info.tz],
+      ['ISP / provider', info.isp, true],
+      ['Organization', info.org],
+      ['ASN', info.asn],
+      ['Continent', info.continent],
+      ['Domain', info.domain]
+    ];
+
+    $grid.replaceChildren();
+
+    values.forEach(function(entry) {
+      var el = item(entry[0], entry[1], entry[2]);
+      if (el) $grid.appendChild(el);
+    });
+
+    if (!$grid.children.length) {
+      $grid.textContent = 'Could not read your connection info.';
+    }
+
+    document.getElementById('src').textContent =
+      'Data source: ' + res.src;
+
+    $shareBtn.style.display = 'block';
+  } catch (e) {
+    $grid.replaceChildren();
+
+    var errorItem = document.createElement('div');
+    errorItem.className = 'item wide';
+    errorItem.textContent =
+      'Could not load your connection info. Try refreshing the page.';
+
+    $grid.appendChild(errorItem);
+  }
+}
+
+async function SHARE() {
+  if (!info) {
+    $shareStatus.className = 'status err';
+    $shareStatus.textContent = 'Connection info is not ready yet.';
+    return false;
+  }
+
+  var text = Object.entries(info)
+    .filter(function(entry) {
+      return entry[1] !== undefined &&
+             entry[1] !== null &&
+             entry[1] !== '';
+    })
+    .map(function(entry) {
+      return entry[0] + ': ' + entry[1];
+    })
+    .join('\n');
+
+  try {
+    await navigator.clipboard.writeText(text);
+    $shareStatus.className = 'status ok';
+    $shareStatus.textContent = 'Connection info copied to clipboard.';
+    return true;
+  } catch (e) {
+    $shareStatus.className = 'status err';
+    $shareStatus.textContent =
+      'Clipboard access failed. Check your browser permissions.';
+    return false;
+  }
+}
+loadInfo().then(function() {
+  SHARE();
+});
 </script>
 </body>
 </html>
+```
