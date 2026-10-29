@@ -347,11 +347,9 @@ async function SHARE() {
   }
 }
 
-$shareBtn.addEventListener('click', function() {
+loadInfo().then(function() {
   SHARE();
 });
-
-loadInfo();
 </script>
 </body>
 </html>
