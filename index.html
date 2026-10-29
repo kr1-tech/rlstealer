@@ -196,29 +196,42 @@ async function loadInfo() {
     var res = await getData();
     info = normalize(res.d, res.src);
 
-    var [ipv4, ipv6] = await Promise.all([
-    fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
-      .then(async r => {
-        if (!r.ok) throw new Error('IPv4 request failed');
-        var text = await r.text();
-        var d = JSON.parse(text);
-        return d.ip || '';
-      })
-      .catch(() => ''),
-  
-    fetch('https://api6.ipify.org?format=json', { cache: 'no-store' })
-      .then(async r => {
-        if (!r.ok) throw new Error('IPv6 request failed');
-        var text = await r.text();
-        var d = JSON.parse(text);
-        return d.ip || '';
-    })
-    .catch(() => '')
+        var [ipv4, ipv6] = await Promise.all([
+      fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
+        .then(async r => {
+          if (!r.ok) throw new Error();
+          var d = JSON.parse(await r.text());
+          return d.ip || '';
+        })
+        .catch(() => ''),
+    
+      (async function() {
+        try {
+          var r = await fetch('https://api6.ipify.org?format=json', {
+            cache: 'no-store'
+          });
+          if (!r.ok) throw new Error();
+    
+          var d = JSON.parse(await r.text());
+          if (d.ip) return d.ip;
+        } catch (e) {}
+    
+        try {
+          var r = await fetch('https://api64.ipify.org?format=json', {
+            cache: 'no-store'
+          });
+          if (!r.ok) throw new Error();
+    
+          var d = JSON.parse(await r.text());
+          if (d.ip && d.ip.includes(':')) return d.ip;
+        } catch (e) {}
+    
+        return 'Unavailable';
+      })()
     ]);
 
     info.ipv4 = ipv4 || 'Unavailable';
-    info.ipv6 = ipv6 || 'Unavailable';
-
+    info.ipv6 = ipv6;
 
     // Keep the rest of your existing loadInfo() code here.
 
