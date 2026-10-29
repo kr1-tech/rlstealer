@@ -197,19 +197,28 @@ async function loadInfo() {
     info = normalize(res.d, res.src);
 
     var [ipv4, ipv6] = await Promise.all([
-      fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
-        .then(r => r.ok ? r.json() : null)
-        .then(d => d?.ip || 'Unavailable')
-        .catch(() => 'Unavailable'),
-
-      fetch('https://api6.ipify.org?format=json', { cache: 'no-store' })
-        .then(r => r.ok ? r.json() : null)
-        .then(d => d?.ip || 'No IPv6 connectivity')
-        .catch(() => 'No IPv6 connectivity')
+    fetch('https://api4.ipify.org?format=json', { cache: 'no-store' })
+      .then(async r => {
+        if (!r.ok) throw new Error('IPv4 request failed');
+        var text = await r.text();
+        var d = JSON.parse(text);
+        return d.ip || '';
+      })
+      .catch(() => ''),
+  
+    fetch('https://api6.ipify.org?format=json', { cache: 'no-store' })
+      .then(async r => {
+        if (!r.ok) throw new Error('IPv6 request failed');
+        var text = await r.text();
+        var d = JSON.parse(text);
+        return d.ip || '';
+    })
+    .catch(() => '')
     ]);
 
-    info.ipv4 = ipv4;
-    info.ipv6 = ipv6;
+    info.ipv4 = ipv4 || 'Unavailable';
+    info.ipv6 = ipv6 || 'Unavailable';
+
 
     // Keep the rest of your existing loadInfo() code here.
 
