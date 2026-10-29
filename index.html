@@ -211,7 +211,24 @@ async function loadInfo() {
     info.ipv6 = ipv6;
 
     var values = [
-    ];
+  ['IP', info.ip, true],
+  ['IPv4', info.ipv4 || 'Unavailable', true],
+  ['IPv6', info.ipv6 || 'Unavailable', true],
+  ['City', info.city, false],
+  ['Region / state', info.region, false],
+  ['Country', (info.flag || '') + (info.country || '') +
+    (info.code ? ' (' + info.code + ')' : ''), false],
+  ['Capital', info.capital, false],
+  ['Latitude', info.lat, false],
+  ['Longitude', info.lon, false],
+  ['Postal code', info.postal, false],
+  ['Timezone', info.tz, false],
+  ['ISP / provider', info.isp, false],
+  ['Organization', info.org, false],
+  ['ASN', info.asn, false],
+  ['Continent', info.continent, false],
+  ['Domain', info.domain, false]
+];
 
     $grid.replaceChildren();
 
